@@ -3,6 +3,7 @@ import axios from 'axios';
 import Modal from './Modal';
 import BetaAccess, { BetaAccessModal } from './BetaAccess ';
 import { AuthContext } from './AuthContext';
+import { SiTether } from 'react-icons/si';  // Import the USDT icon
 
 
 axios.interceptors.response.use(
@@ -52,12 +53,13 @@ function TradePanel() {
     setError('');
     setGlobalError('');
     try {
+
       const response = await axios.post('http://localhost:3000/v1/trade/order', {
         is_buy_order: orderType === 'buy',
         symbol: selectedCrypto,
         quantity: parseInt(amount),
-        price: parseFloat(price),
-        stop_price: parseFloat(stopPrice),
+        price: parseInt(parseFloat(price)*100),
+        stop_price: parseInt(parseFloat(price)*100),
       });
       console.log('Order placed successfully:', response.data);
       setAmount('');
@@ -95,7 +97,7 @@ function TradePanel() {
   };
 
   const cryptoIcons = [
-    { name: 'GDC', icon: 'USDT' },
+    { name: 'GDC', icon:<SiTether size={26} color='#00df9a' /> },
   ];
 
 

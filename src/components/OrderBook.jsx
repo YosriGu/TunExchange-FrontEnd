@@ -63,60 +63,46 @@ function OrderBook() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center p-4 sm:p-10 w-full bg-black">
-      <div className="bg-black shadow-lg rounded-lg p-4 sm:p-6 w-full sm:w-[90%] border border-[#00df9a]">
-        <h2 className="text-3xl font-bold mb-6 text-center text-white font-rajdhani">Order Book</h2>
-        <div className="flex flex-col sm:flex-row justify-between space-y-6 sm:space-y-0 sm:space-x-6">
-          <div className="w-full sm:w-1/2 bg-black border border-[#00df9a] rounded-lg p-4">
-            <h3 className="text-[#00df9a] font-semibold text-center text-2xl mb-4 font-rajdhani">Buy</h3>
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[#00df9a]">
-                  <th className="py-2 px-4 text-white text-center">Price</th>
-                  <th className="py-2 px-4 text-white text-center">Amount</th>
-                  <th className="py-2 px-4 text-white text-center">Total</th>
-                  <th className="py-2 px-4 text-white text-center">Orders</th>
-                </tr>
-              </thead>
-              <tbody>
-                {buyOrders.map((order, index) => (
-                  <tr key={index} className="hover:bg-gray-900 transition duration-200">
-                    <td className="py-1 px-4 text-white text-center">{order.price}</td>
-                    <td className="py-1 px-4 text-white text-center">{order.amount}</td>
-                    <td className="py-1 px-4 text-white text-center">{order.total}</td>
-                    <td className="py-1 px-4 text-white text-center">{order.orderCount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="w-full sm:w-1/2 bg-black border border-[#00df9a] rounded-lg p-4">
-            <h3 className="text-[#00df9a] font-semibold text-center text-2xl mb-4 font-rajdhani">Sell</h3>
-            <table className="w-full">
-              <thead>
-                <tr className="border-b border-[#00df9a]">
-                  <th className="py-2 text-white px-4 text-center">Price</th>
-                  <th className="py-2 text-white px-4 text-center">Amount</th>
-                  <th className="py-2 text-white px-4 text-center">Total</th>
-                  <th className="py-2 text-white px-4 text-center">Orders</th>
-                </tr>
-              </thead>
-              <tbody>
-                {sellOrders.map((order, index) => (
-                  <tr key={index} className="hover:bg-gray-900 transition duration-200">
-                    <td className="py-1 text-white px-4 text-center">{order.price}</td>
-                    <td className="py-1 text-white px-4 text-center">{order.amount}</td>
-                    <td className="py-1 text-white px-4 text-center">{order.total}</td>
-                    <td className="py-1 text-white px-4 text-center">{order.orderCount}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+    <div className="flex flex-col justify-center items-center p-2 sm:p-4 md:p-6 lg:p-10 w-full bg-black">
+      <div className="bg-black shadow-lg rounded-lg p-2 sm:p-4 md:p-6 w-full lg:w-[90%] border border-[#00df9a]">
+        <h2 className="text-2xl sm:text-3xl font-bold mb-4 sm:mb-6 text-center text-white font-rajdhani">Order Book</h2>
+        <div className="flex flex-col lg:flex-row justify-between space-y-4 lg:space-y-0 lg:space-x-6">
+          <OrderTable title="Buy" orders={buyOrders} />
+          <OrderTable title="Sell" orders={sellOrders} />
         </div>
         <div className='flex justify-center py-4 items-center'>
           <TradeButton/>
         </div>
+      </div>
+    </div>
+  );
+}
+
+function OrderTable({ title, orders }) {
+  return (
+    <div className="w-full lg:w-1/2 bg-black border border-[#00df9a] rounded-lg p-2 sm:p-4">
+      <h3 className="text-[#00df9a] font-semibold text-center text-xl sm:text-2xl mb-2 sm:mb-4 font-rajdhani">{title}</h3>
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead>
+            <tr className="border-b border-[#00df9a]">
+              <th className="py-2 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">Price</th>
+              <th className="py-2 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">Amount</th>
+              <th className="py-2 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">Total</th>
+              <th className="py-2 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">Orders</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order, index) => (
+              <tr key={index} className="hover:bg-gray-900 transition duration-200">
+                <td className="py-1 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">{order.price/10000}</td>
+                <td className="py-1 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">{order.amount}</td>
+                <td className="py-1 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">{order.total/10000}</td>
+                <td className="py-1 px-2 sm:px-4 text-white text-center text-xs sm:text-sm">{order.orderCount}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );

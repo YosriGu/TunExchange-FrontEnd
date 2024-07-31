@@ -1,16 +1,17 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import BetaFeatureButton from './BetaFeatureButton';
-import { AuthContext } from './AuthContext'; // Import AuthContext for token
+import { AuthContext } from './AuthContext';
 
 const Account = () => {
   const [openOrdersCount, setOpenOrdersCount] = useState(0);
   const [closedOrdersCount, setClosedOrdersCount] = useState(0);
-  const [Balance, setBalance] = useState('N/A');
-  const { token } = useContext(AuthContext); // Use context to get token
+  const [balance, setBalance] = useState('N/A');
+  const [priceChange24h, setPriceChange24h] = useState('0.00');
+  const { token } = useContext(AuthContext);
 
   useEffect(() => {
-    const fetchOpenOrdersCount = async () => {
+    const fetchAccountData = async () => {
       try {
         const response = await axios.get('http://localhost:3000/v1/tokens/state', {
           headers: {
@@ -19,13 +20,24 @@ const Account = () => {
         });
         setClosedOrdersCount(response.data.filledOrdersCount);
         setOpenOrdersCount(response.data.openOrdersCount);
-        setBalance(response.data.balance)
+        setBalance(response.data.balance);
       } catch (error) {
-        console.error('Error fetching open orders count:', error);
+        console.error('Error fetching account data:', error);
       }
     };
 
-    fetchOpenOrdersCount();
+    const fetchBinanceData = async () => {
+      try {
+        const response = await axios.get('https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT');
+        const change = parseFloat(response.data.priceChangePercent).toFixed(2);
+        setPriceChange24h(change);
+      } catch (error) {
+        console.error('Error fetching Binance data:', error);
+      }
+    };
+
+    fetchAccountData();
+    fetchBinanceData();
   }, [token]);
 
   return (
@@ -39,27 +51,27 @@ const Account = () => {
           <BetaFeatureButton buttonText="Withdraw" feature="Withdraw" />
         </div>
         <h1 className="text-[3rem] font-semibold font-rajdhani xl:text-[6rem] text-white">
-         {Balance} Dinar
+         {balance} Dinar
         </h1>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 px-8">
-        <InfoCard title="24h Change" value="+5.23%" isPositive={true} />
-        <InfoCard title="Available USDT" value={Number(Balance/3.3).toFixed(2)} />
-        <InfoCard title="Open Orders" value={openOrdersCount} />
-        <InfoCard title="Account Level" value="Beta" />
+        <InfoCard title="24h Change" value={`${priceChange24h}%`} isPositive={parseFloat(priceChange24h) >= 0} />
+        <InfoCard title="Available USDT" value={Number(balance/3.3).toFixed(2)} />
+        <InfoCard title="Open Orders" value={token?openOrdersCount:'N/A'} />
+        <InfoCard title="Account Level" value={token?"Beta":'N/A'} />
         <InfoCard title="Trading Fee" value="0.0%" />
-        <InfoCard title="Matched Orders" value={closedOrdersCount} />
+        <InfoCard title="Matched Orders" value={token?closedOrdersCount:'N/A'} />
       </div>
     </div>
   );
 };
 
-const InfoCard = ({ title, value, isPositive }) => {
+const InfoCard = ({ title, value, isPositive=null }) => {
   return (
     <div className="bg-black border border-[#00df9a] rounded-lg p-4">
       <h3 className="text-[#00df9a] font-rajdhani">{title}</h3>
-      <p className={`text-2xl font-bold ${isPositive ? 'text-green-500' : 'text-white'}`}>
+      <p className={`text-2xl font-bold ${isPositive ? 'text-green-500' : isPositive===null?'text-white': 'text-red-500'}`}>
         {value}
       </p>
     </div>

@@ -16,7 +16,7 @@ function Navbar() {
       <div className="container mx-auto px-4">
         <div className="flex flex-1 justify-between items-center py-4">
           <div className="flex items-center self-start">
-            <img className='w-16 h-16 rounded-full mr-2' src={logo} alt="Logo" />
+            <img className='w-[40px] h-[40px] mr-3 rounded-full ' src={logo} alt="Logo" />
             <div className="text-xl font-semibold">TunExchange</div>
           </div>
 
