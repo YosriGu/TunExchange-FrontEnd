@@ -11,7 +11,7 @@ function TradeHistory() {
   useEffect(() => {
     const fetchTradeHistory = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/tokens/history', {
+        const response = await axios.get('https://tunexchange-backend-production.up.railway.app/v1/tokens/history', {
           headers: {
             Authorization: `Bearer ${token}`,
           },

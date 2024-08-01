@@ -54,7 +54,7 @@ function TradePanel() {
     setGlobalError('');
     try {
 
-      const response = await axios.post('http://localhost:3000/v1/trade/order', {
+      const response = await axios.post('https://tunexchange-backend-production.up.railway.app/v1/trade/order', {
         is_buy_order: orderType === 'buy',
         symbol: selectedCrypto,
         quantity: parseInt(amount),

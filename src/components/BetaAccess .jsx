@@ -22,7 +22,7 @@ export function BetaAccessModal({ onClose }) {
     }
 
     try {
-      const response = await axios.post('http://localhost:3000/v1/auth/access', {
+      const response = await axios.post('https://tunexchange-backend-production.up.railway.app/v1/auth/access', {
         accessCode: accessCode
       });
 

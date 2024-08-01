@@ -13,7 +13,7 @@ const Account = () => {
   useEffect(() => {
     const fetchAccountData = async () => {
       try {
-        const response = await axios.get('http://localhost:3000/v1/tokens/state', {
+        const response = await axios.get('https://tunexchange-backend-production.up.railway.app/v1/tokens/state', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
