@@ -14,7 +14,7 @@ function OrderBook() {
   ]);
 
   useEffect(() => {
-    const ws = new WebSocket('ws://tunexchange-backend-production.up.railway.app/ws');
+    const ws = new WebSocket('wss://tunexchange-backend-production.up.railway.app/ws');
 
     ws.onopen = () => {
       console.log('Connected to WebSocket');
