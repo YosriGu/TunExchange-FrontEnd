@@ -38,6 +38,7 @@ function TradePanel() {
   const [stopPrice, setStopPrice] = useState('');
   const [error, setError] = useState('');
   const [globalError, setGlobalError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);  // New state for loading
 
 
   const handleCryptoSelection = (crypto) => {
@@ -52,6 +53,8 @@ function TradePanel() {
     }
     setError('');
     setGlobalError('');
+    setIsLoading(true);  // Set loading to true when submitting
+
     try {
 
       const response = await axios.post('https://tunexchange-backend-production.up.railway.app/v1/trade/order', {
@@ -93,6 +96,8 @@ function TradePanel() {
       } else {
         setError('Error placing order. Please try again.');
       }
+    }finally {
+      setIsLoading(false);  // Set loading back to false when done
     }
   };
 
@@ -192,11 +197,24 @@ function TradePanel() {
         </div>
         {error && <p className="text-red-500">{error}</p>}
         <div className="flex justify-end">
-          <button
+        <button
             type="submit"
-            className="bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50"
+            className={`bg-green-400 hover:bg-green-500 text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-opacity-50 ${
+              isLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={isLoading}
           >
-            {orderType === 'buy' ? 'Place Buy Order' : 'Place Sell Order'}
+            {isLoading ? (
+              <span className="flex items-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Processing...
+              </span>
+            ) : (
+              `Place ${orderType === 'buy' ? 'Buy' : 'Sell'} Order`
+            )}
           </button>
         </div>
       </form>
