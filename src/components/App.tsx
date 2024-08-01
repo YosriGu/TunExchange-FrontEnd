@@ -60,7 +60,7 @@ const Layout = () => (
     </div>
     <Account/>
     <div>
-      <OrderBook />
+      
       <TradeHistory />
       <Footer />
     </div>
