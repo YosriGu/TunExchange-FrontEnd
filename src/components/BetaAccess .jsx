@@ -79,7 +79,7 @@ export function BetaAccessModal({ onClose }) {
           </p>
         )}
         <p className="text-gray-400 text-sm text-center mt-6 font-rajdhani">
-          Don't have a beta access code? <a href="#" className="text-[#00df9a] hover:underline">Request one here</a>.
+          Don't have a beta access code? <a href="/contact" className="text-[#00df9a] hover:underline">Request one here</a>.
         </p>
       </div>
     </div>
