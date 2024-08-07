@@ -4,6 +4,9 @@ import Modal from './Modal';
 import axios from 'axios';
 import { AuthContext } from './AuthContext';
 import Logout from './Logout';
+import { NavLink } from 'react-router-dom';
+
+
 export function BetaAccessModal({ onClose }) {
   const [accessCode, setAccessCode] = useState('');
   const [message, setMessage] = useState('');
@@ -79,7 +82,7 @@ export function BetaAccessModal({ onClose }) {
           </p>
         )}
         <p className="text-gray-400 text-sm text-center mt-6 font-rajdhani">
-          Don't have a beta access code? <a href="/contact" className="text-[#00df9a] hover:underline">Request one here</a>.
+          Don't have a beta access code? <NavLink to="/contact" className="text-[#00df9a] hover:underline">Request one here</NavLink>.
         </p>
       </div>
     </div>
